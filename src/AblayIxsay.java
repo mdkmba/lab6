@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * Created by marcking2 on 7/16/17.
@@ -20,11 +22,10 @@ public class AblayIxsay {
 
             do {
                 System.out.println("\n\nEnter a line to be translated (500 characters or less): ");
-                goodstr = 0;
                 words = scnr.nextLine();
                 if (words.length() >= 500){   //must be less than 500 chars
-                    goodstr = 0;
                     System.out.println("Too many characters.");
+                    goodstr = 0;
                 }
                 else if (words.charAt(0) == ' '){
                     System.out.println("You can't start with a blank space.");  //must not start with blank space
@@ -34,57 +35,87 @@ public class AblayIxsay {
                 }
             }while (goodstr == 0);
             words = "The way is 99% clear!";  //fixme remove this
-            wordscopy = words + '*';
-            wordscopy = wordscopy.toLowerCase();    //convert string copy to lower case
+            wordscopy = words;
 
-
-
-        pigVersion = pigtrans(wordscopy, words);    /*send string copy  and original string to pigtrans. Original string is used to compare capitol
-        letter placement */
+        pigVersion = pigtrans(wordscopy);   /*send string copy to pigtrans. */
         System.out.println(pigVersion);
-
-        System.out.println("Good so far!");
     }
 
-    public static String pigtrans(String convertcopy, String origwords){
+    public static String pigtrans(String convertcopy){
         //^^^method to convert string copy to pig latin
     String converted;
-    char finalString [] = new char [500];
-
-
+        ArrayList<String> arrayList = new ArrayList<>();//list array for concatenating wrd2add strings as they are generated
 
     int count = convertcopy.length();   //counts the number of chars in the convert copy to set the size of the string
+    boolean hasNum = false;
+        String wrd2add = (""); //will add wrd2add.toLowerCase(); later
 
-        char origstrArray[] = new char [count];     //creates an array of the original string
-        char charArray[] = new char [count];    //creates array to the exact size of the string sent
+        for (int i = 0; i < count; i++){
+            char x = convertcopy.charAt(i);
+            if (x != ' '){
+                if (Character.isDigit(x)){
+                    hasNum = true;
 
-    origwords.getChars(0, count, origstrArray, 0 );
-    //^^^moves (count) number of chars in the string to the array in sequential order
-    convertcopy.getChars(0, count, charArray, 0 );
-    //^^^moves (count) number of chars in the string to the array in sequential order
+                }
+                else if (!Character.isDigit(x)) {
+                    hasNum = false;
+                }
+                wrd2add += x;
+            }
+            if (hasNum){
+                return wrd2add;
+            }
 
-    System.out.printf("\n\n\nThere are %s chars in this string.", count);
-    System.out.print("\n\n\nMETHOD copy of string: ");    //used to show the contents of the array
-     String wrd2add;
-        int wrdlength = count;
-    for (char character : charArray ){
-        for (int i = 0; i < wrdlength; i++){
-            char extrctWord = character
+            else if (!hasNum){
+                wrd2add = convWord(wrd2add);
+                return wrd2add;
+            }
+
+                wrd2add = "";
+    }
+
+
+    }
+
+
+    public static String convWord (String wrd2add) {
+        boolean make1stUpper = false;
+        boolean consonant = false;
+        String wrd2add2 = "";
+
+        int count = wrd2add.length();
+
+        if (Character.isUpperCase(wrd2add.charAt(0))) {
+            make1stUpper = true;
         }
+        String wrd2addB = wrd2add.toLowerCase();
 
-        System.out.print(character);
-    }System.out.print("\n");
+        for (int i = 0; i < count; i++) {
+            char f = wrd2addB.charAt(0);
+            char x = wrd2addB.charAt(i);
+            if (x != 'a' && x != 'e' && x != 'i' && x != 'o' && x != 'u') {
+                consonant = true;
+                wrd2add2 = wrd2addB.substring(1) + f;
+            } else {
+                wrd2add2 = wrd2addB + x;
 
-    System.out.print("\n\n\nMETHOD original string: ");    //used to show the contents of the array
-    for (char origcharacter : origstrArray ){
-        System.out.print(origcharacter);
-    }System.out.println("\n");
+            }
 
-    // int wordlength =
 
-    convertcopy = new String(charArray);
-
-    converted = convertcopy;
-    return converted;
+        }
+        if (make1stUpper) {
+            wrd2add2 = wrd2add2.substring(0, 1).toUpperCase() + wrd2add2.substring(1);
+        }
+        if (consonant) {
+            wrd2add2 = wrd2add + "ay";
+        } else {
+            wrd2add2 = wrd2add + "way";
+        }
+        return wrd2add2;
     }
 }
+
+//char charArray[] = new char [count];    //creates array to the exact size of the string sent
+
+//    convertcopy.getChars(0, count, charArray, 0 );
+//^^^moves (count) number of chars in the string to the array in sequential order
