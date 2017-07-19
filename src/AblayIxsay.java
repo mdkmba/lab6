@@ -3,17 +3,15 @@
  */
 
 import java.util.*;
-import java.util.Arrays;
-import java.util.ArrayList;
+import java.util.Scanner;
 
-public class lab6 {
+public class AblayIxsay {
 
     public static void main(String[] args) {
         Scanner scnr = new Scanner(System.in);
         String words;   //for original input from user
         String wordscopy;   //used to perform manipulation of string
         String pigVersion;  //used to store result of manipulation from pigtrans method
-        String blank = " ";
         int goodstr = 0;
         boolean hasNum = false;
 
@@ -34,11 +32,11 @@ public class lab6 {
                 goodstr = 1;
             }
         } while (goodstr == 0);
-        words = "The way is 99% clear";  //fixme remove this
+
         wordscopy = words;
 
         pigVersion = pigtrans(wordscopy);   /*send string copy to pigtrans. */
-        System.out.println(pigVersion);
+        System.out.println("\n\nThis is your translation: " + pigVersion);
     }
 
     public static String pigtrans(String convertcopy) {
@@ -54,36 +52,41 @@ public class lab6 {
 
         }
 
-        return wordbk;
+        return wordbk + " ";
     }
 
-    public static String convWord(String wrd2add) {
+    public static String convWord(String translateThis) {
 
         // code by Monique West
-        String newPig = " ";
+        String translatedWord = " ";
+        char n = 0;
+        translateThis = translateThis.toLowerCase();
 
-        char v = wrd2add.charAt(0);
+        char v = translateThis.charAt(0);
         if (v == 'a' || v == 'e' || v == 'o' || v == 'i' || v == 'u') {
-            //System.out.println("Vowel: " + wrd2add);
             //process Pig Latin with vowel
 
-            newPig = wrd2add + "way";
-            //System.out.print("Your translated word is: " + newPig);
+            translatedWord = translateThis + "way";
+        }
+else if (Character.isDigit(n));
+         else {
 
-        } else {
-            System.out.println("Consonant: " + wrd2add);
-            for (int i = 0; i < wrd2add.length(); i++) {
+            for (int i = 0; i < translateThis.length(); i++) {
 
-                char p = wrd2add.charAt(i);
-                if (p == 'a' || p == 'e' || p == 'o' || p == 'i' || p == 'u') {
+                char d;
+                d = translateThis.charAt(i);
+                if (d == 'a' || d == 'e' || d == 'o' || d == 'i' || d == 'u') {
                     //process pig Latin with consonant
-                    newPig = wrd2add.substring(i);
-                    newPig += wrd2add.substring(0, i);
+                    translatedWord = translateThis.substring(i);
+                    translatedWord += translateThis.substring(0, i);
+                    translatedWord = translatedWord + "ay";
+                    break;
+                }
 
-                }newPig = newPig + "ay";
 
             }
 
-        }return newPig;
+        }
+        return translatedWord;
     }
 }
